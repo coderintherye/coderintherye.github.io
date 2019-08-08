@@ -1,0 +1,218 @@
+<html>
+
+<body>
+<h1>Where to find things in RHEL and Ubuntu Linux</h1>
+<div class="section">
+            <a id="main-content"></a>
+                    <h1 class="title" id="page-title">
+          Where to find things in RHEL and Ubuntu Linux        </h1>
+                                    <div class="region region-content">
+  <div id="block-system-main" class="block block-system first odd">
+
+    
+  <div class="content">
+    <div id="node-53" class="node node-blog node-promoted clearfix" about="/linux-tips" typeof="sioc:Post sioct:BlogPost">
+
+      
+      <div class="meta submitted">
+            published by <span rel="sioc:has_creator"><span class="username" xml:lang="" about="/user/1" typeof="sioc:UserAccount" property="foaf:name">Drupal Caulfield</span></span> on <span property="dc:date dc:created" content="2010-05-21T10:40:16-07:00" datatype="xsd:dateTime">Fri, 05/21/2010 - 10:40</span>    </div>
+  
+  <div class="content clearfix">
+    <div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Always forgetting the paths to restart Apache or edit your log files, etc? Well, I am, so this is a post to help me keep track of those places, but perhaps it will be useful to you as well. Some paths will be the same for all flavors of Linux and some are specific to RHEL.<br>&nbsp;</p>
+<p><!--break-->
+</p><p><strong>Apache Restart:</strong> /etc/init.d/httpd restart (or on Ubuntu&nbsp;<meta http-equiv="content-type" content="text/html; charset=utf-8">sudo service apache2 restart)<br><strong>Apache configuration:</strong> - /etc/httpd/conf/httpd.conf<br><strong>PHP configuration:</strong> - /etc/php.ini (or on Ubuntu /etc/php5/apache2/php.ini)<br><strong>Log files:</strong> /var/log<br><strong>Web root:</strong> /var/www/html<br><strong>Bash shell profile:</strong>&nbsp;~/.bash_profile</p>
+<p><strong>mysql:</strong>mysql -u user -p -h ip.ad.dr.ess<br><strong>mysqldump:</strong> mysql -u user -p -h ip.ad.dr.ess databasename &gt; databasename.sql<br><strong>apply a patch:</strong> patch -p0 filetopatch 
+</p><p><strong>search / find in vi:</strong>&nbsp;/searchterm and then use 'n' key to find next</p>
+<p><strong>find and replace in all subdirectories using grep and sed:</strong>&nbsp;grep -lre 'MySearch' ./ | xargs sed -i 's/ChangeFrom/ChangeTo/g'</p>
+<div>Of course replacing MySearch, ChangeFrom, and ChangeTo to your patterns.</div>
+<div>&nbsp;</div>
+<p><strong>Delete all matching lines in files in subdirectories: </strong> find . -type f -print0 | xargs -0 sed -i /SSL\ available/d </p>
+<p><strong>Save a file as su when already inside of vi</strong>: You ever open vi as normal user when you mean to as root / su. Just type in vi: w !sudo tee % </p>
+<p><strong>svn delete all files in subversion control that were removed</strong>: svn status | grep '\!' | awk '{print $2;}' | xargs svn rm </p>
+<p></p><p>% is to be replaced by the current filename</p>
+<div>
+<p><strong>Grep for terms and ignore svn directories</strong>: grep -re "Content_Data_Data" ./ | grep -v .svn </p>
+</div>
+<div>
+<p><strong>Grep for terms and ignore multiple filetypes/directories</strong>:  grep -nre "issue" --exclude=*.{svn,test,svn-base,tmp} .</p>
+</div>
+<p>The nice part about the second grep statement is that it keeps the syntax highlight whereas when using -v you lose highlighting</p>
+<div><strong>rename folders based on a pattern</strong>: rename site.drupal.org site.drupal.org.project. site.drupal.org.*</div>
+<div>&nbsp;</div>
+<div>This will replace e.g., site.drupal.org.views and site.drupal.org.cck, with site.drupal.org.project.views and site.drupal.org.project.cck Works on the entire folder</div>
+<p><strong>delete svn directories in current and all subdirectories:</strong>&nbsp;find . -name ".svn" -type d -exec rm -rf {} \;</p>
+<p><strong>add all new files in a directory that is already under subversion control</strong>: svn add directoryname/ --force</p>
+<p>pngcrush an image&nbsp;pngcrush -rem gAMA -rem cHRM -rem iCCP -rem sRGB image.png image2.png</p>
+<p><strong>port forward via ssh</strong>:&nbsp;ssh -f -L 8080:server.example.com:80 server.example.com</p>
+<p><strong>untar a tarred and gzipped folder and remove the base directory</strong> (very helpful for untarring Drupal or the like when you want to overwrite files):&nbsp;tar -xzvpf thefilename.tar.gz --strip-components 1&nbsp;</p>
+<p><strong>performance monitoring commands</strong>: powertop, top, htop, vmstat, netstat, ntop, vnstat, iostat, strace, oprofile. Also useful is KCacheGrind utility and XDebug for PHP, SHOW PROCESSLIST; for MySQL, and apachetop for Apache.&nbsp;</p>
+<p><strong>server system information:</strong>&nbsp;cat /proc/cpuinfo, cat /proc/meminfo, dmesg, lspci</p>
+<p>As further explanation, the x means to extract, the z means ungzip it, the v means verbose so it will show all the folders/files being extracted, the p means to preserve permissions, and the f indicated the filename will follow. The strip components flag is what removes the base folder from the tarred file before extracting.&nbsp;</p>
+<p><strong>!string</strong> - use this and replace string with any string that begins a previous command from your history and it will repeat that command. Yey, no more searching through history.&nbsp;</p>
+<p><strong>Disk usage</strong> df -k</p>
+<p><strong>Use sed to remove matching lines</strong>  sed -ie 's/front_page/d' delta.sql</p>
+<p><strong>Use find, sed, and awk to get part of the name of a matching directory</strong> find ./ -name "test.coderintherye.com.*" | sed "s/\./\ /g" | awk '{print $NF}'</p>
+<p>For example on the above, if I had the directories: test.coderyintherye.com.site1, test.coderyintherye.com.site2, test.coderyintherye.com.site3, etc. and I just want to get the site# part, the above will return it</p>
+<p><strong><a href="https://web.archive.org/web/20180916114247/http://www.builderau.com.au/program/linux/soa/10-shortcuts-to-master-bash/0,339028299,339279043,00.htm">10 tips for using the Bash shell</a></strong> - found these quite useful</p>
+<p><strong>history</strong> - show your previous commands</p>
+<p><strong>!!</strong> - use this in the shell to rerun previous command</p>
+<p><strong>Edit a file on a remote host using vim</strong> - vim scp://username@host//path/to/somefile</p>
+<p><strong>Right alt left arrow for back one page in karmic (via Ubuntu forums):</strong><br>
+Open "System -&gt; Preferences -&gt; Keyboard".<br>
+Click the Layouts tab, then click the Layout Options button.<br>
+Under "Key to choose 3rd level", check "Right Alt key never chooses 3rd level" and uncheck the others. (That worked for me; you might wanna experiment.)
+</p>
+<p><strong>Getting just the diff of particular revision in subversion</strong>: svn diff -c 123</p>
+<p><strong>List of modified files in a revision</strong>: svn log --verbose -r 123 </p>
+<p><strong> Adding a new site to Apache (thanks to cdenley on ubuntuforums) </strong></p>
+<pre>NameVirtualHost *:8080
+
+<virtualhost>
+DocumentRoot /path/to/new/site
+ServerName <a href="https://web.archive.org/web/20180916114247/http://www.example.com/">www.example.com</a>
+</virtualhost>
+-enable your new site
+Command Line:
+sudo a2ensite <site name="">
+-restart apache to listen on your new port and load your new site
+Command Line:
+sudo service apache2 restart
+</site></pre><p>You may also find this useful: </p>
+<p><iframe src="https://web.archive.org/web/20180916114247if_/http://rcm.amazon.com/e/cm?lt1=_blank&amp;bc1=000000&amp;IS2=1&amp;bg1=FFFFFF&amp;fc1=000000&amp;lc1=B5BB23&amp;t=nowarlab-20&amp;o=1&amp;p=8&amp;l=as1&amp;m=amazon&amp;f=ifr&amp;md=10FE9736YVPPT7A0FBG2&amp;asins=0137060882" style="width:120px;height:240px;" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe></p>
+<p>Also check out <a href="https://web.archive.org/web/20180916114247/http://symkat.com/35/ssh-tips-and-tricks-you-need/">This great blog post</a> and <a href="https://web.archive.org/web/20180916114247/http://news.ycombinator.com/item?id=1536126">this hacker news post on nifty ssh tips</a>.</p>
+<p><a href="https://web.archive.org/web/20180916114247/http://www.coderintherye.com/front.php" style="display: none;">outfit</a></p>
+</div></div></div>  </div>
+
+      <div class="link-wrapper">
+      <ul class="links inline"><li class="blog_usernames_blog first last"><a href="/web/20180916114247/http://www.coderintherye.com/blog/1" title="Read Drupal Caulfield's latest blog entries.">Drupal Caulfield's blog</a></li>
+</ul>    </div>
+  
+  <div id="comments-wrapper">
+  <div id="comments" class="comment-wrapper">
+                <h2 class="title">Comments</h2>
+          
+    <a id="comment-371"></a>
+<div class="comment clearfix" about="/comment/371#comment-371" typeof="sioc:Post sioct:Comment">
+
+  <div class="attribution">
+
+    
+    <div class="submitted">
+      <a href="/web/20180916114247/http://www.coderintherye.com/comment/371#comment-371">#</a>      <p class="commenter-name">
+        <span rel="sioc:has_creator"><span class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name">Xiong Chiamiov</span></span>      </p>
+      <p class="comment-time">
+        <span property="dc:date dc:created" content="2012-05-14T20:02:08-07:00" datatype="xsd:dateTime">Mon, 05/14/2012 - 20:02</span>      </p>
+    </div>
+  </div>
+
+  <div class="comment-text">
+    <div class="comment-arrow"></div>
+
+    
+        <h3 property="dc:title" datatype=""><a href="/web/20180916114247/http://www.coderintherye.com/comment/371#comment-371">You should use `service`</a></h3>
+    
+    <div class="content">
+      <span rel="sioc:reply_of" resource="/linux-tips" class="rdf-meta"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>You should use `service` instead of calling the init-scripts directly - I've experienced odd inconsistencies when doing it as you have it listed.</p>
+<p>Also, sed has an in-place flag (`-i`) that you can use instead of writing to an alternate filename and copying back over.  Even better, it accepts an optional suffix for a backup file (eg `-i .bak`).</p>
+</div></div></div>          </div> <!-- /.content -->
+
+    <ul class="links inline"><li class="comment-reply first last"><a href="/web/20180916114247/http://www.coderintherye.com/comment/reply/53/371">reply</a></li>
+</ul>  </div> <!-- /.comment-text -->
+</div>
+
+<div class="indented"><a id="comment-378"></a>
+<div class="comment comment-by-node-author clearfix" about="/comment/378#comment-378" typeof="sioc:Post sioct:Comment">
+
+  <div class="attribution">
+
+    
+    <div class="submitted">
+      <a href="/web/20180916114247/http://www.coderintherye.com/comment/378#comment-378">#</a>      <p class="commenter-name">
+        <span rel="sioc:has_creator"><span class="username" xml:lang="" about="/user/1" typeof="sioc:UserAccount" property="foaf:name">Drupal Caulfield</span></span>      </p>
+      <p class="comment-time">
+        <span property="dc:date dc:created" content="2012-06-17T17:41:24-07:00" datatype="xsd:dateTime">Sun, 06/17/2012 - 17:41</span>      </p>
+    </div>
+  </div>
+
+  <div class="comment-text">
+    <div class="comment-arrow"></div>
+
+    
+        <h3 property="dc:title" datatype=""><a href="/web/20180916114247/http://www.coderintherye.com/comment/378#comment-378">Thanks, I made the changes as</a></h3>
+    
+    <div class="content">
+      <span rel="sioc:reply_of" resource="/linux-tips" class="rdf-meta"></span><span rel="sioc:reply_of" resource="/comment/371#comment-371" class="rdf-meta"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Thanks, I made the changes as you suggested.</p>
+</div></div></div>          </div> <!-- /.content -->
+
+    <ul class="links inline"><li class="comment-reply first last"><a href="/web/20180916114247/http://www.coderintherye.com/comment/reply/53/378">reply</a></li>
+</ul>  </div> <!-- /.comment-text -->
+</div>
+</div><a id="comment-509"></a>
+<div class="comment clearfix" about="/comment/509#comment-509" typeof="sioc:Post sioct:Comment">
+
+  <div class="attribution">
+
+    
+    <div class="submitted">
+      <a href="/web/20180916114247/http://www.coderintherye.com/comment/509#comment-509">#</a>      <p class="commenter-name">
+        <span rel="sioc:has_creator"><span class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name">Manju</span></span>      </p>
+      <p class="comment-time">
+        <span property="dc:date dc:created" content="2013-01-16T23:19:46-08:00" datatype="xsd:dateTime">Wed, 01/16/2013 - 23:19</span>      </p>
+    </div>
+  </div>
+
+  <div class="comment-text">
+    <div class="comment-arrow"></div>
+
+    
+        <h3 property="dc:title" datatype=""><a href="/web/20180916114247/http://www.coderintherye.com/comment/509#comment-509">You are amazing</a></h3>
+    
+    <div class="content">
+      <span rel="sioc:reply_of" resource="/linux-tips" class="rdf-meta"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Hey Kelvin, You are doing a great job!! Im very much inspired by you to start my own website.. :) </p>
+<p>Thanks buddy...</p>
+</div></div></div>          </div> <!-- /.content -->
+
+    <ul class="links inline"><li class="comment-reply first last"><a href="/web/20180916114247/http://www.coderintherye.com/comment/reply/53/509">reply</a></li>
+</ul>  </div> <!-- /.comment-text -->
+</div>
+
+          <h2 class="title comment-form">Add new comment</h2>
+      <form action="/web/20180916114247/http://www.coderintherye.com/comment/reply/53" method="post" id="comment-form" accept-charset="UTF-8">
+<div><div class="form-item form-type-textfield form-item-name">
+  <label for="edit-name">Your name </label>
+ <input type="text" maxlength="60" name="name" id="edit-name" size="30" value="Anonymous" class="form-text">
+</div>
+<div class="form-item form-type-textfield form-item-subject">
+  <label for="edit-subject">Subject </label>
+ <input type="text" maxlength="64" name="subject" id="edit-subject" size="60" value="" class="form-text">
+</div>
+<div class="field-type-text-long field-name-comment-body field-widget-text-textarea form-wrapper" id="edit-comment-body"><div id="comment-body-add-more-wrapper"><div class="text-format-wrapper"><div class="form-item form-type-textarea form-item-comment-body-und-0-value">
+  <label for="edit-comment-body-und-0-value">Comment <span class="form-required" title="This field is required.">*</span></label>
+ <div class="form-textarea-wrapper resizable textarea-processed resizable-textarea"><textarea cols="60" rows="5" name="comment_body[und][0][value]" id="edit-comment-body-und-0-value" class="text-full form-textarea required"></textarea><div class="grippie"></div></div>
+</div>
+<fieldset class="filter-wrapper form-wrapper" id="edit-comment-body-und-0-format"><div class="fieldset-wrapper"><div class="filter-help form-wrapper" id="edit-comment-body-und-0-format-help"><p><a href="/web/20180916114247/http://www.coderintherye.com/filter/tips">More information about text formats</a></p></div><div class="filter-guidelines form-wrapper filter-guidelines-processed" id="edit-comment-body-und-0-format-guidelines"><div class="filter-guidelines-item filter-guidelines-1"><label style="display: none;">Plain text:</label><ul class="tips"><li>No HTML tags allowed.</li><li>Web page addresses and e-mail addresses turn into links automatically.</li><li>Lines and paragraphs break automatically.</li></ul></div></div></div></fieldset>
+</div>
+</div></div><input type="hidden" name="form_build_id" id="form-kftlNr-6LYNg_kL0_Amm2Rb_cpyFZi0bIVM4uHHAMws" value="form-kftlNr-6LYNg_kL0_Amm2Rb_cpyFZi0bIVM4uHHAMws">
+<input type="hidden" name="form_id" id="edit-comment-form" value="comment_form">
+<div class="form-actions form-wrapper" id="edit-actions"><input type="submit" name="op" id="edit-submit" value="Save" class="form-submit">
+<input type="submit" name="op" id="edit-preview" value="Preview" class="form-submit">
+</div>
+</div></form>
+      </div>
+</div>
+
+</div>
+  </div>
+</div>
+<div id="block-friendconnect-comments" class="block block-friendconnect last even">
+
+    <h2>Comment using an existing account (Google, Twitter, etc.)</h2>
+  
+  <div class="content">
+    <div id="friendconnect-gadget-comments"></div>  </div>
+</div>
+</div>
+      
+</div>
+</body>
+</html>
