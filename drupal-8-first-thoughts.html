@@ -1,0 +1,449 @@
+<html>
+
+<body>
+<h1>Where to find things in RHEL and Ubuntu Linux</h1>
+<div class="section">
+            <a id="main-content"></a>
+                    <h1 class="title" id="page-title">
+          Trying out Drupal 8        </h1>
+                                    <div class="region region-content">
+  <div id="block-system-main" class="block block-system first odd">
+
+    
+  <div class="content">
+    <div id="node-109" class="node node-blog node-promoted clearfix" about="/drupal-8-first-thoughts" typeof="sioc:Post sioct:BlogPost">
+
+      
+      <div class="meta submitted">
+            published by <span rel="sioc:has_creator"><span class="username" xml:lang="" about="/user/1" typeof="sioc:UserAccount" property="foaf:name">Drupal Caulfield</span></span> on <span property="dc:date dc:created" content="2012-11-06T23:07:03-08:00" datatype="xsd:dateTime">Tue, 11/06/2012 - 23:07</span>    </div>
+  
+  <div class="content clearfix">
+    <div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Last week was BADcamp and like many I opted to join in on getting some Drupal work done before and between sessions. Step one, looking through my dashboard to see what's in the backlog. Lots of issues and patches for the <a href="https://web.archive.org/web/20190213221235/http://drupal.org/project/delete_all">delete all</a> module. Got that cleaned up, mostly. On to Drupal 8. Now, I had worked on a couple patches way earlier this year for D8, but things have changed.</p>
+<p>Drupal 8 requires PHP 5.3 now, so first step, get a virtual machine going with PHP 5.3. Downloaded the new Ubuntu 12.04 LTS. Now, I like Ubuntu, but man, Unity is painful. Simply switching screens from OS X over to the VM would cause the Unity search to overlay the screen, not to mention that it was taking up 10% of my screen space with junk I'll never click. Fortunately, it wasn't too difficult to remove Unity and replace with gnome classic then install the rest of the needed LAMP stack components.</p>
+<p>Now, finally with a VM meeting the requirements I could install Drupal 8. Create a new MySQL database, Git clone like normal (takes a while, we've gone from 3.42 MB to 4.5 MB), open the tarball and see there is still a default.settings.php (guess I haven't been paying attention enough, as I thought CMI was going to fully get rid of it in favor of yml configs) and copy it over to settings.php and make it writeable.</p>
+<p>Ok, next step, run the installer. Hmm, well I had uninstalled Firefox, so guess I'll install Chrome. Except, as it turns out, it's apparently quite difficult to get a hold of a download URL for the google chrome debian package. Even using lynx led to failures for both chrome and chromium sites as they both required Javascript. Oh well, re-install Firefox. Maybe I should have tried installing Drupal using lynx, never know, may work.</p>
+<p>Run installer. Can't install, need PHP GD libraries. Oh that's right, we need image manipulation tools just to run Drupal, cause that makes sense, right? Ok, sudo apt-get install php5-gd and we're good. Now to fill out the install form. Try root@localhost for e-mail, no dice, which I suppost conforms to the spec although I liked finding an <a href="https://web.archive.org/web/20190213221235/http://drupal.org/node/12274#comment-307938">old comment from Dries</a> says we want to intentionally make that work. Ok, <a href="https://web.archive.org/web/20190213221235/mailto:root@localhost.lan">root@localhost.lan</a> it is I guess. Next step.. Great! Wait, hmm. Click a link and get a 404. Drupal seems to have enabled clean URLs by default even though I hadn't set Apache up to support them. That's no good. Didn't the installer used to warn about that and turn Clean URLs off by default? Ok, click back button. Hmm, this doesn't work because I'm running into an #overlay link. </p>
+<p>Ok, well I'll install drush and disable overlay. I mean, not totally necessary, but I know I'll be install drush at some point regardless, might as well now. Put drush in and run and then...<br><code><br>
+PHP Fatal error:  Uncaught exception 'Exception' with message 'The configuration directory type <em class="placeholder">active</em> does not exist.' in /drupal/core/includes/bootstrap.inc:535<br></code></p>
+<p>Well, shucks. Apparently, I <a href="https://web.archive.org/web/20190213221235/http://drupal.org/node/1773988">need a newer version of Drush</a>. Stable version is not gonna cut it. Ok. Dev version installed. New error:<br><code><br>
+Failed to write configuration file.<br></code></p>
+<p>Ahh of course, /sites/default/files doesn't have the proper permissions. Didn't the installer used to warn me about that? Today it was silent. Alright, that done, "drush dis overlay --yes". Ok, click back. Alright path to config is /admin/config so let's try ?q=admin/config. No dice, I'm back to the front page. Ok, well guess I'll go set up Apache rewrite. I of course planned to eventually set it up anyways, but how about all those people who don't? Maybe something to do with <a href="https://web.archive.org/web/20190213221235/http://drupal.org/node/1659580">this</a>? I feel like there is an issue to file regarding the clean URLs snafu, but with the issue queue the way it is and deadlines looming, I don't want to inadvertently create a false bug report.</p>
+<p>Ok sudo a2enmod then a trip to <a href="https://web.archive.org/web/20190213221235/http://drupal.org/getting-started/clean-urls">the clean urls handbook page</a> to remember what I need to add to my site config (mind you this is all setup properly on my old Ubuntu install but I had to upgrade to a new install for this and thus don't have all these settings in place).</p>
+<p>Alright, finally, back to the Drupal I know and love. Maybe I can start testing some patches now in hopes of helping out all those fine core developers and all the great work they do. But, I can't help but think, the 2013 release schedule for Drupal 8 is starting to feel a little rushed.</p>
+</div></div></div><div class="field field-name-field-tags field-type-taxonomy-term-reference field-label-above"><div class="field-label">Tags:&nbsp;</div><div class="field-items"><div class="field-item even"><a href="/web/20190213221235/http://www.coderintherye.com/drupalplanet" typeof="skos:Concept" property="rdfs:label skos:prefLabel">Drupal Planet</a></div></div></div>  </div>
+
+      <div class="link-wrapper">
+      <ul class="links inline"><li class="blog_usernames_blog first last"><a href="/web/20190213221235/http://www.coderintherye.com/blog/1" title="Read Drupal Caulfield's latest blog entries.">Drupal Caulfield's blog</a></li>
+</ul>    </div>
+  
+  <div id="comments-wrapper">
+  <div id="comments" class="comment-wrapper">
+                <h2 class="title">Comments</h2>
+          
+    <a id="comment-468"></a>
+<div class="comment clearfix" about="/comment/468#comment-468" typeof="sioc:Post sioct:Comment">
+
+  <div class="attribution">
+
+    
+    <div class="submitted">
+      <a href="/web/20190213221235/http://www.coderintherye.com/comment/468#comment-468">#</a>      <p class="commenter-name">
+        <span rel="sioc:has_creator"><span class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name">Aspilicious</span></span>      </p>
+      <p class="comment-time">
+        <span property="dc:date dc:created" content="2012-11-07T02:59:11-08:00" datatype="xsd:dateTime">Wed, 11/07/2012 - 02:59</span>      </p>
+    </div>
+  </div>
+
+  <div class="comment-text">
+    <div class="comment-arrow"></div>
+
+    
+        <h3 property="dc:title" datatype=""><a href="/web/20190213221235/http://www.coderintherye.com/comment/468#comment-468">Some comments</a></h3>
+    
+    <div class="content">
+      <span rel="sioc:reply_of" resource="/drupal-8-first-thoughts" class="rdf-meta"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Some comments</p>
+<p>1) Clean url's are a requirement for drupal8 for several reasons.  Maybe we can and should throw an error on installation. Not 100% sure it is possible. Can you open an issue for that? Anyway if I'm not mistaken the ?q stuff is replaced with mysite.com/index.php/admin/config for example. Not 100% sure about the path but it's somewhere in the issue queue. There is even a new contrib module that redirects ?q= paths to the correct url.</p>
+<p>2) I think the GD stuff is only needed for the standard profile. Right? Tried minimal?</p>
+<p>3) It's normal that drush isn't stable when core is moving that fast</p>
+<p>4) We should show a nice message if config isn't writable. Did you try to install through the UI? If that works this is maybe a bug for drush? Anyway if you found the cause open an issue in the correct queue.</p>
+<p>Seriously these issues can be fixed in like a week. Don't see why you think drupal 8 in the end of 2013 is going to be rushed because of this. There are way bigger problems we need to fix and conversions that need to happen than this. There is even a working upgrade path. And if the upgrade path doesn't work you should again open an issue for it ;)</p>
+</div></div></div>          </div> <!-- /.content -->
+
+    <ul class="links inline"><li class="comment-reply first last"><a href="/web/20190213221235/http://www.coderintherye.com/comment/reply/109/468">reply</a></li>
+</ul>  </div> <!-- /.comment-text -->
+</div>
+
+<div class="indented"><a id="comment-475"></a>
+<div class="comment comment-by-node-author clearfix" about="/comment/475#comment-475" typeof="sioc:Post sioct:Comment">
+
+  <div class="attribution">
+
+    
+    <div class="submitted">
+      <a href="/web/20190213221235/http://www.coderintherye.com/comment/475#comment-475">#</a>      <p class="commenter-name">
+        <span rel="sioc:has_creator"><span class="username" xml:lang="" about="/user/1" typeof="sioc:UserAccount" property="foaf:name">Drupal Caulfield</span></span>      </p>
+      <p class="comment-time">
+        <span property="dc:date dc:created" content="2012-11-07T18:25:27-08:00" datatype="xsd:dateTime">Wed, 11/07/2012 - 18:25</span>      </p>
+    </div>
+  </div>
+
+  <div class="comment-text">
+    <div class="comment-arrow"></div>
+
+    
+        <h3 property="dc:title" datatype=""><a href="/web/20190213221235/http://www.coderintherye.com/comment/475#comment-475">Please don't take this as</a></h3>
+    
+    <div class="content">
+      <span rel="sioc:reply_of" resource="/drupal-8-first-thoughts" class="rdf-meta"></span><span rel="sioc:reply_of" resource="/comment/468#comment-468" class="rdf-meta"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Please don't take this as criticism, this is merely my experience. Personally, I'm happy to see all the progress and glad their are people smarter than me working hard on stuff. However, when you say "there are way bigger problems we need to fix", that's actually what I am getting at. We go into feature freeze next month, and we have big problems to fix, so it's highly unlikely these "smaller" problems will get dealt with. </p>
+<p>I think there is an issue to file here, but with the deadline looming, it's intimidating to file an issue. I can put in the steps for reproduction, but what if it turns out it was environment specific and I've just wasted a core developer's time right before feature freeze? What if it turns out there is a change to make some desired behavior, but it's not a bug, then it's a feature, and then it's not going until D9 at the earliest at this point. </p>
+<p>That's not to say it shouldn't be done, but the issue queue is a bit of a minefield (or rather *feels* like a minefield) at the moment.</p>
+</div></div></div>          </div> <!-- /.content -->
+
+    <ul class="links inline"><li class="comment-reply first last"><a href="/web/20190213221235/http://www.coderintherye.com/comment/reply/109/475">reply</a></li>
+</ul>  </div> <!-- /.comment-text -->
+</div>
+</div><a id="comment-469"></a>
+<div class="comment clearfix" about="/comment/469#comment-469" typeof="sioc:Post sioct:Comment">
+
+  <div class="attribution">
+
+    
+    <div class="submitted">
+      <a href="/web/20190213221235/http://www.coderintherye.com/comment/469#comment-469">#</a>      <p class="commenter-name">
+        <span rel="sioc:has_creator"><span class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name">RdeBoer</span></span>      </p>
+      <p class="comment-time">
+        <span property="dc:date dc:created" content="2012-11-07T03:34:28-08:00" datatype="xsd:dateTime">Wed, 11/07/2012 - 03:34</span>      </p>
+    </div>
+  </div>
+
+  <div class="comment-text">
+    <div class="comment-arrow"></div>
+
+    
+        <h3 property="dc:title" datatype=""><a href="/web/20190213221235/http://www.coderintherye.com/comment/469#comment-469">A laugh in a tear...</a></h3>
+    
+    <div class="content">
+      <span rel="sioc:reply_of" resource="/drupal-8-first-thoughts" class="rdf-meta"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Dear Coder in the Rye/Drupal Caulfield,<br>
+You're so right you funny man!<br>
+Would have taken you hours to go through all these frustrating steps. Thanks so much for pointing these out to us and "the Powers that be" in a way that's both entertaining and to the point.<br>
+There's a lot of goodies waiting for all of us in D8, but we need to clear and straighten the road to get there.<br>
+Rik</p>
+</div></div></div>          </div> <!-- /.content -->
+
+    <ul class="links inline"><li class="comment-reply first last"><a href="/web/20190213221235/http://www.coderintherye.com/comment/reply/109/469">reply</a></li>
+</ul>  </div> <!-- /.comment-text -->
+</div>
+<a id="comment-470"></a>
+<div class="comment clearfix" about="/comment/470#comment-470" typeof="sioc:Post sioct:Comment">
+
+  <div class="attribution">
+
+    
+    <div class="submitted">
+      <a href="/web/20190213221235/http://www.coderintherye.com/comment/470#comment-470">#</a>      <p class="commenter-name">
+        <span rel="sioc:has_creator"><span class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name">drupalla</span></span>      </p>
+      <p class="comment-time">
+        <span property="dc:date dc:created" content="2012-11-07T04:38:35-08:00" datatype="xsd:dateTime">Wed, 11/07/2012 - 04:38</span>      </p>
+    </div>
+  </div>
+
+  <div class="comment-text">
+    <div class="comment-arrow"></div>
+
+    
+        <h3 property="dc:title" datatype=""><a href="/web/20190213221235/http://www.coderintherye.com/comment/470#comment-470">i trying to learn drupal.</a></h3>
+    
+    <div class="content">
+      <span rel="sioc:reply_of" resource="/drupal-8-first-thoughts" class="rdf-meta"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>i trying to learn drupal.<br>
+how to create a site like this <a href="https://web.archive.org/web/20190213221235/http://www.eunited.com.my/">http://www.eunited.com.my/</a><br>
+the slider image, displaying category on front page.</p>
+<p>should i learn version 7 or wait 8 to come out first?</p>
+</div></div></div>          </div> <!-- /.content -->
+
+    <ul class="links inline"><li class="comment-reply first last"><a href="/web/20190213221235/http://www.coderintherye.com/comment/reply/109/470">reply</a></li>
+</ul>  </div> <!-- /.comment-text -->
+</div>
+
+<div class="indented"><a id="comment-474"></a>
+<div class="comment comment-by-node-author clearfix" about="/comment/474#comment-474" typeof="sioc:Post sioct:Comment">
+
+  <div class="attribution">
+
+    
+    <div class="submitted">
+      <a href="/web/20190213221235/http://www.coderintherye.com/comment/474#comment-474">#</a>      <p class="commenter-name">
+        <span rel="sioc:has_creator"><span class="username" xml:lang="" about="/user/1" typeof="sioc:UserAccount" property="foaf:name">Drupal Caulfield</span></span>      </p>
+      <p class="comment-time">
+        <span property="dc:date dc:created" content="2012-11-07T18:20:34-08:00" datatype="xsd:dateTime">Wed, 11/07/2012 - 18:20</span>      </p>
+    </div>
+  </div>
+
+  <div class="comment-text">
+    <div class="comment-arrow"></div>
+
+    
+        <h3 property="dc:title" datatype=""><a href="/web/20190213221235/http://www.coderintherye.com/comment/474#comment-474">I'd suggest 7, at best, you</a></h3>
+    
+    <div class="content">
+      <span rel="sioc:reply_of" resource="/drupal-8-first-thoughts" class="rdf-meta"></span><span rel="sioc:reply_of" resource="/comment/470#comment-470" class="rdf-meta"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>I'd suggest 7, at best, you are looking at a stable version of Drupal 8 with the contributed modules you need being available by about April 2014.</p>
+</div></div></div>          </div> <!-- /.content -->
+
+    <ul class="links inline"><li class="comment-reply first last"><a href="/web/20190213221235/http://www.coderintherye.com/comment/reply/109/474">reply</a></li>
+</ul>  </div> <!-- /.comment-text -->
+</div>
+</div><a id="comment-471"></a>
+<div class="comment clearfix" about="/comment/471#comment-471" typeof="sioc:Post sioct:Comment">
+
+  <div class="attribution">
+
+    
+    <div class="submitted">
+      <a href="/web/20190213221235/http://www.coderintherye.com/comment/471#comment-471">#</a>      <p class="commenter-name">
+        <span rel="sioc:has_creator"><span class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name">Fabianx</span></span>      </p>
+      <p class="comment-time">
+        <span property="dc:date dc:created" content="2012-11-07T05:02:26-08:00" datatype="xsd:dateTime">Wed, 11/07/2012 - 05:02</span>      </p>
+    </div>
+  </div>
+
+  <div class="comment-text">
+    <div class="comment-arrow"></div>
+
+    
+        <h3 property="dc:title" datatype=""><a href="/web/20190213221235/http://www.coderintherye.com/comment/471#comment-471">Use http://drupal.org/project/legacy_redirect</a></h3>
+    
+    <div class="content">
+      <span rel="sioc:reply_of" resource="/drupal-8-first-thoughts" class="rdf-meta"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Hi,</p>
+<p>For non-clean urls backwards compatibility you need to use:</p>
+<p>  <a href="https://web.archive.org/web/20190213221235/http://drupal.org/project/legacy_redirect">http://drupal.org/project/legacy_redirect</a></p>
+<p>Drupal just does not support non-clean URLs anymore as most other frameworks. This is coming from Symfony.</p>
+<p>Best Wishes,</p>
+<p>Fabian</p>
+</div></div></div>          </div> <!-- /.content -->
+
+    <ul class="links inline"><li class="comment-reply first last"><a href="/web/20190213221235/http://www.coderintherye.com/comment/reply/109/471">reply</a></li>
+</ul>  </div> <!-- /.comment-text -->
+</div>
+<a id="comment-472"></a>
+<div class="comment clearfix" about="/comment/472#comment-472" typeof="sioc:Post sioct:Comment">
+
+  <div class="attribution">
+
+    
+    <div class="submitted">
+      <a href="/web/20190213221235/http://www.coderintherye.com/comment/472#comment-472">#</a>      <p class="commenter-name">
+        <span rel="sioc:has_creator"><span class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name">Anonymous</span></span>      </p>
+      <p class="comment-time">
+        <span property="dc:date dc:created" content="2012-11-07T07:05:31-08:00" datatype="xsd:dateTime">Wed, 11/07/2012 - 07:05</span>      </p>
+    </div>
+  </div>
+
+  <div class="comment-text">
+    <div class="comment-arrow"></div>
+
+    
+        <h3 property="dc:title" datatype=""><a href="/web/20190213221235/http://www.coderintherye.com/comment/472#comment-472">And this is being released in</a></h3>
+    
+    <div class="content">
+      <span rel="sioc:reply_of" resource="/drupal-8-first-thoughts" class="rdf-meta"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>And this is being released in December? Good luck with that.</p>
+</div></div></div>          </div> <!-- /.content -->
+
+    <ul class="links inline"><li class="comment-reply first last"><a href="/web/20190213221235/http://www.coderintherye.com/comment/reply/109/472">reply</a></li>
+</ul>  </div> <!-- /.comment-text -->
+</div>
+
+<div class="indented"><a id="comment-478"></a>
+<div class="comment clearfix" about="/comment/478#comment-478" typeof="sioc:Post sioct:Comment">
+
+  <div class="attribution">
+
+    
+    <div class="submitted">
+      <a href="/web/20190213221235/http://www.coderintherye.com/comment/478#comment-478">#</a>      <p class="commenter-name">
+        <span rel="sioc:has_creator"><span class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name">Quentin Delance</span></span>      </p>
+      <p class="comment-time">
+        <span property="dc:date dc:created" content="2012-11-08T04:19:08-08:00" datatype="xsd:dateTime">Thu, 11/08/2012 - 04:19</span>      </p>
+    </div>
+  </div>
+
+  <div class="comment-text">
+    <div class="comment-arrow"></div>
+
+    
+        <h3 property="dc:title" datatype=""><a href="/web/20190213221235/http://www.coderintherye.com/comment/478#comment-478">Drupal 8 roadmap</a></h3>
+    
+    <div class="content">
+      <span rel="sioc:reply_of" resource="/drupal-8-first-thoughts" class="rdf-meta"></span><span rel="sioc:reply_of" resource="/comment/472#comment-472" class="rdf-meta"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Nope.</p>
+<p>Current release date is Aug. 2013: <a href="https://web.archive.org/web/20190213221235/http://drupal.org/community-initiatives/drupal-core">http://drupal.org/community-initiatives/drupal-core</a></p>
+<p>Don't panic, they still have feature freeze, then code freeze ahead to finish it properly.</p>
+</div></div></div>          </div> <!-- /.content -->
+
+    <ul class="links inline"><li class="comment-reply first last"><a href="/web/20190213221235/http://www.coderintherye.com/comment/reply/109/478">reply</a></li>
+</ul>  </div> <!-- /.comment-text -->
+</div>
+<a id="comment-479"></a>
+<div class="comment clearfix" about="/comment/479#comment-479" typeof="sioc:Post sioct:Comment">
+
+  <div class="attribution">
+
+    
+    <div class="submitted">
+      <a href="/web/20190213221235/http://www.coderintherye.com/comment/479#comment-479">#</a>      <p class="commenter-name">
+        <span rel="sioc:has_creator"><span class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name">Tom Geller</span></span>      </p>
+      <p class="comment-time">
+        <span property="dc:date dc:created" content="2012-11-08T07:35:13-08:00" datatype="xsd:dateTime">Thu, 11/08/2012 - 07:35</span>      </p>
+    </div>
+  </div>
+
+  <div class="comment-text">
+    <div class="comment-arrow"></div>
+
+    
+        <h3 property="dc:title" datatype=""><a href="/web/20190213221235/http://www.coderintherye.com/comment/479#comment-479">Nope.</a></h3>
+    
+    <div class="content">
+      <span rel="sioc:reply_of" resource="/drupal-8-first-thoughts" class="rdf-meta"></span><span rel="sioc:reply_of" resource="/comment/472#comment-472" class="rdf-meta"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>No, Anonymous, it's being released September 2013. December is the cut-off date for new features.</p>
+</div></div></div>          </div> <!-- /.content -->
+
+    <ul class="links inline"><li class="comment-reply first last"><a href="/web/20190213221235/http://www.coderintherye.com/comment/reply/109/479">reply</a></li>
+</ul>  </div> <!-- /.comment-text -->
+</div>
+</div><a id="comment-473"></a>
+<div class="comment clearfix" about="/comment/473#comment-473" typeof="sioc:Post sioct:Comment">
+
+  <div class="attribution">
+
+    
+    <div class="submitted">
+      <a href="/web/20190213221235/http://www.coderintherye.com/comment/473#comment-473">#</a>      <p class="commenter-name">
+        <span rel="sioc:has_creator"><span class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name">tstoeckler</span></span>      </p>
+      <p class="comment-time">
+        <span property="dc:date dc:created" content="2012-11-07T09:54:53-08:00" datatype="xsd:dateTime">Wed, 11/07/2012 - 09:54</span>      </p>
+    </div>
+  </div>
+
+  <div class="comment-text">
+    <div class="comment-arrow"></div>
+
+    
+        <h3 property="dc:title" datatype=""><a href="/web/20190213221235/http://www.coderintherye.com/comment/473#comment-473">index.php</a></h3>
+    
+    <div class="content">
+      <span rel="sioc:reply_of" resource="/drupal-8-first-thoughts" class="rdf-meta"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>If you do not want to enable mode_rewrite, you can access each page by prepending index.php to the path.<br>
+I.e.: if example.com/admin/config yields a 404, try example.com/index.php/admin/config</p>
+<p>That said, that should definitely be documented somewhere!<br>
+(And hopefully Drupal 8 won't require php-gd anymore at release time (although Drupal has always required that, so that should be too big of a put-off))</p>
+</div></div></div>          </div> <!-- /.content -->
+
+    <ul class="links inline"><li class="comment-reply first last"><a href="/web/20190213221235/http://www.coderintherye.com/comment/reply/109/473">reply</a></li>
+</ul>  </div> <!-- /.comment-text -->
+</div>
+
+<div class="indented"><a id="comment-476"></a>
+<div class="comment comment-by-node-author clearfix" about="/comment/476#comment-476" typeof="sioc:Post sioct:Comment">
+
+  <div class="attribution">
+
+    
+    <div class="submitted">
+      <a href="/web/20190213221235/http://www.coderintherye.com/comment/476#comment-476">#</a>      <p class="commenter-name">
+        <span rel="sioc:has_creator"><span class="username" xml:lang="" about="/user/1" typeof="sioc:UserAccount" property="foaf:name">Drupal Caulfield</span></span>      </p>
+      <p class="comment-time">
+        <span property="dc:date dc:created" content="2012-11-07T18:27:19-08:00" datatype="xsd:dateTime">Wed, 11/07/2012 - 18:27</span>      </p>
+    </div>
+  </div>
+
+  <div class="comment-text">
+    <div class="comment-arrow"></div>
+
+    
+        <h3 property="dc:title" datatype=""><a href="/web/20190213221235/http://www.coderintherye.com/comment/476#comment-476">Indeed, I didn't know about</a></h3>
+    
+    <div class="content">
+      <span rel="sioc:reply_of" resource="/drupal-8-first-thoughts" class="rdf-meta"></span><span rel="sioc:reply_of" resource="/comment/473#comment-473" class="rdf-meta"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Indeed, I didn't know about the new url structure, thank you!</p>
+</div></div></div>          </div> <!-- /.content -->
+
+    <ul class="links inline"><li class="comment-reply first last"><a href="/web/20190213221235/http://www.coderintherye.com/comment/reply/109/476">reply</a></li>
+</ul>  </div> <!-- /.comment-text -->
+</div>
+</div><a id="comment-532"></a>
+<div class="comment clearfix" about="/comment/532#comment-532" typeof="sioc:Post sioct:Comment">
+
+  <div class="attribution">
+
+    
+    <div class="submitted">
+      <a href="/web/20190213221235/http://www.coderintherye.com/comment/532#comment-532">#</a>      <p class="commenter-name">
+        <span rel="sioc:has_creator"><span class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name">Anonymous</span></span>      </p>
+      <p class="comment-time">
+        <span property="dc:date dc:created" content="2013-03-19T16:25:04-07:00" datatype="xsd:dateTime">Tue, 03/19/2013 - 16:25</span>      </p>
+    </div>
+  </div>
+
+  <div class="comment-text">
+    <div class="comment-arrow"></div>
+
+    
+        <h3 property="dc:title" datatype=""><a href="/web/20190213221235/http://www.coderintherye.com/comment/532#comment-532">glad I ran into this comment</a></h3>
+    
+    <div class="content">
+      <span rel="sioc:reply_of" resource="/drupal-8-first-thoughts" class="rdf-meta"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>glad I ran into this comment thread.  I installed drupal 8 on a new Ubuntu install w/ external mySQL server.  The install worked fine and all admin pages were accessible via overlay, but no settings or content were been written nor any errors recorded to logs.  This was all solved by installing mod-rewrite</p>
+</div></div></div>          </div> <!-- /.content -->
+
+    <ul class="links inline"><li class="comment-reply first last"><a href="/web/20190213221235/http://www.coderintherye.com/comment/reply/109/532">reply</a></li>
+</ul>  </div> <!-- /.comment-text -->
+</div>
+<a id="comment-556"></a>
+<div class="comment clearfix" about="/comment/556#comment-556" typeof="sioc:Post sioct:Comment">
+
+  <div class="attribution">
+
+    
+    <div class="submitted">
+      <a href="/web/20190213221235/http://www.coderintherye.com/comment/556#comment-556">#</a>      <p class="commenter-name">
+        <span rel="sioc:has_creator"><span class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name">Anonymous</span></span>      </p>
+      <p class="comment-time">
+        <span property="dc:date dc:created" content="2013-05-18T13:03:06-07:00" datatype="xsd:dateTime">Sat, 05/18/2013 - 13:03</span>      </p>
+    </div>
+  </div>
+
+  <div class="comment-text">
+    <div class="comment-arrow"></div>
+
+    
+        <h3 property="dc:title" datatype=""><a href="/web/20190213221235/http://www.coderintherye.com/comment/556#comment-556">Didn't work for me with</a></h3>
+    
+    <div class="content">
+      <span rel="sioc:reply_of" resource="/drupal-8-first-thoughts" class="rdf-meta"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Didn't work for me with postgresql and Apache2 on a Debian 7 VM. The install progress bar stopped at 73% (mostly, tried it about 10 times with various permutations of steps-- I should have taken notes with hindsight) for at least ten minutes with a message about installing the Help module. Reloading the page, it then quickly jumped to 80% or 90%, then finished. There were no pages (including the default page) in the site, and the admin pages were not accessible. The menus, links and Drupal icon appeared OK.  I created the config file by copying the contents of the .htaccess file to the site file and merging it with the contents of 000-default, then removing 000-default. I guess it could be a redirect config error, but there was nothing in the error logs that indicated that with log level at Warn in Apache2, and as I said, the menus etc loaded OK. I didn't see any 404s in the network log in firebug.</p>
+<p>That was with a standard install. Doing a minimal install completed without error or pause, but the site was then just a grey Drupal icon and a link to the root, nothing else.</p>
+</div></div></div>          </div> <!-- /.content -->
+
+    <ul class="links inline"><li class="comment-reply first last"><a href="/web/20190213221235/http://www.coderintherye.com/comment/reply/109/556">reply</a></li>
+</ul>  </div> <!-- /.comment-text -->
+</div>
+
+          <h2 class="title comment-form">Add new comment</h2>
+      <form action="/web/20190213221235/http://www.coderintherye.com/comment/reply/109" method="post" id="comment-form" accept-charset="UTF-8">
+<div><div class="form-item form-type-textfield form-item-name">
+  <label for="edit-name">Your name </label>
+ <input type="text" maxlength="60" name="name" id="edit-name" size="30" value="Anonymous" class="form-text">
+</div>
+<div class="form-item form-type-textfield form-item-subject">
+  <label for="edit-subject">Subject </label>
+ <input type="text" maxlength="64" name="subject" id="edit-subject" size="60" value="" class="form-text">
+</div>
+<div class="field-type-text-long field-name-comment-body field-widget-text-textarea form-wrapper" id="edit-comment-body"><div id="comment-body-add-more-wrapper"><div class="text-format-wrapper"><div class="form-item form-type-textarea form-item-comment-body-und-0-value">
+  <label for="edit-comment-body-und-0-value">Comment <span class="form-required" title="This field is required.">*</span></label>
+ <div class="form-textarea-wrapper resizable textarea-processed resizable-textarea"><textarea cols="60" rows="5" name="comment_body[und][0][value]" id="edit-comment-body-und-0-value" class="text-full form-textarea required"></textarea><div class="grippie"></div></div>
+</div>
+<fieldset class="filter-wrapper form-wrapper" id="edit-comment-body-und-0-format"><div class="fieldset-wrapper"><div class="filter-help form-wrapper" id="edit-comment-body-und-0-format-help"><p><a href="/web/20190213221235/http://www.coderintherye.com/filter/tips">More information about text formats</a></p></div><div class="filter-guidelines form-wrapper filter-guidelines-processed" id="edit-comment-body-und-0-format-guidelines"><div class="filter-guidelines-item filter-guidelines-1"><label style="display: none;">Plain text:</label><ul class="tips"><li>No HTML tags allowed.</li><li>Web page addresses and e-mail addresses turn into links automatically.</li><li>Lines and paragraphs break automatically.</li></ul></div></div></div></fieldset>
+</div>
+</div></div>
+      </div>
+</div>
+
+</div>
+  </div>
+</div>
+</div>
+</body>
+</html>
